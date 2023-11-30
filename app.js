@@ -41,9 +41,19 @@ plu.addEventListener('click', () => {
 // to activate a task when the check button is clicked
 function activ(i, element) {
     let mybg = element;
-    mybg.style.color = '#1eff00';
+    if(todo[i].checked == true){
+        mybg.style.color =  '#5d5f5e';
+        document.querySelector(".task" + i).style.backgroundColor = '#ffff';
+        todo[i].checked = false;
+        todo[i].bg = false;
+    }
+    else{
+        mybg.style.color ='#1eff00',
+        document.querySelector(".task" + i).style.backgroundColor = '#a5ff9a';
+        todo[i].checked = true;
+        todo[i].bg = true;
+    };
 
-    todo[i].checked = true;
     localStorage.setItem("todo", JSON.stringify(todo));
 }
 
@@ -52,8 +62,9 @@ function vivi() {
     let oyo = "";
     for (let i = 0; i < todo.length; i++) {
         let checkedStyle = todo[i].checked ? 'color: #1eff00;' : 'color: #5d5f5e;';
+        let bg = todo[i].bg ? 'background-color:#a5ff9a;' : 'background-color:#ffff';
 
-        oyo += `<div id="task" class="task${i}">
+        oyo += `<div id="task" class="task${i}" style="${bg}">
             <i id="pen" class="fa-solid fa-pen-to-square" style="color: #005eff;" onclick="(update(${i}))"></i>
             <i id="check${i}" class="fa-solid fa-circle-check" style="${checkedStyle}" onclick="activ(${i}, this)"></i>
             <i id="delete" class="fa-solid fa-trash" style="color: #ff0f0f;" onclick="del(${i})"></i>
@@ -67,12 +78,11 @@ function vivi() {
 function viewTodo() {
     let mission = {
         mission: task,
-        checked: false
+        checked: false,
+        bg: false,
     };
-
     todo.push(mission);
     vivi();
-    
     localStorage.setItem("todo", JSON.stringify(todo));
 }
 
@@ -125,3 +135,4 @@ function update(i) {
         }
     });
 }
+
