@@ -38,23 +38,17 @@ plu.addEventListener('click', () => {
     });
 });
 
-// to activate a task when the check button is clicked
-function activ(i, element) {
-    let mybg = element;
-    if(todo[i].checked == true){
-        mybg.style.color =  '#5d5f5e';
-        document.querySelector(".task" + i).style.backgroundColor = '#ffff';
-        todo[i].checked = false;
-        todo[i].bg = false;
-    }
-    else{
-        mybg.style.color ='#1eff00',
-        document.querySelector(".task" + i).style.backgroundColor = '#a5ff9a';
-        todo[i].checked = true;
-        todo[i].bg = true;
-    };
 
+// display the entered task
+function viewTodo() {
+    let mission = {
+        mission: task,
+        checked: false,
+        bg: false,
+    };
+    todo.push(mission);
     localStorage.setItem("todo", JSON.stringify(todo));
+    vivi(); 
 }
 
 // to display tasks
@@ -74,17 +68,48 @@ function vivi() {
     tasks.innerHTML = oyo;
 }
 
-// display the entered task
-function viewTodo() {
-    let mission = {
-        mission: task,
-        checked: false,
-        bg: false,
+// update a task
+function update(i) {
+    Swal.fire({
+        title: 'Change Your Task',
+        input: 'text',
+        showCancelButton: true,
+        confirmButtonText: 'Save',
+        cancelButtonText: 'Cancel',
+        inputValidator: (value) => {
+            if (!value) {
+                return 'You must enter a task before saving!';
+            }
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            document.querySelector("#miss" + i).innerHTML = result.value;
+            let tas = result.value;
+            todo[i].mission = tas;
+            localStorage.setItem("todo", JSON.stringify(todo));
+        }
+    });
+}
+
+// to activate a task when the check button is clicked
+function activ(i, element) {
+    let mybg = element;
+    if(todo[i].checked == true){
+        mybg.style.color =  '#5d5f5e';
+        document.querySelector(".task" + i).style.backgroundColor = '#ffff';
+        todo[i].checked = false;
+        todo[i].bg = false;
+    }
+    else{
+        mybg.style.color ='#1eff00',
+        document.querySelector(".task" + i).style.backgroundColor = '#a5ff9a';
+        todo[i].checked = true;
+        todo[i].bg = true;
     };
-    todo.push(mission);
-    vivi();
+
     localStorage.setItem("todo", JSON.stringify(todo));
 }
+
 
 // Function to delete a task
 function del(i) {
@@ -113,26 +138,6 @@ function del(i) {
     });
 }
 
-// update a task
-function update(i) {
-    Swal.fire({
-        title: 'Change Your Task',
-        input: 'text',
-        showCancelButton: true,
-        confirmButtonText: 'Save',
-        cancelButtonText: 'Cancel',
-        inputValidator: (value) => {
-            if (!value) {
-                return 'You must enter a task before saving!';
-            }
-        }
-    }).then((result) => {
-        if (result.isConfirmed) {
-            document.querySelector("#miss" + i).innerHTML = result.value;
-            let tas = result.value;
-            todo[i].mission = tas;
-            localStorage.setItem("todo", JSON.stringify(todo));
-        }
-    });
-}
+
+
 
